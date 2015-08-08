@@ -47,6 +47,10 @@ sysctl -p
 # Allow PPTP traffic on iptables
 service iptables start
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+# Allow PPTP control channel
+iptables -I INPUT -p tcp --dport 1723 -j ACCEPT
+# Allow GRE tunnel protocol
+iptables -A INPUT --protocol gre -j ACCEPT
 # iptables-save | tee /etc/sysconfig/iptables
 service iptables save
 service iptables restart
